@@ -1,2 +1,3 @@
-# react-development
-User Interface &amp; User Experience (CSCI 1300) Project #3a
+# Project #3a (React Development)
+
+User Interface &amp; User Experience (CSCI 1300)
