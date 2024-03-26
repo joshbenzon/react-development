@@ -1,6 +1,7 @@
 import "./App.css";
 
-import RoadTripImage from "./images/playlists/Roadtrip Platylist.jpeg";
+import ItzyImage from "./images/playlists/Itzy Playlist.jpg";
+import RoadTripImage from "./images/playlists/Roadtrip Playlist.jpeg";
 
 function App() {
     return (
@@ -9,6 +10,7 @@ function App() {
                 <div className="favorite">
                     <h2>RoadTrip Playlist</h2>
                     <img
+                        className="roadtrip-pic"
                         src={RoadTripImage}
                         alt="RoadTrip Playlist Cover Image"
                     ></img>
@@ -19,7 +21,27 @@ function App() {
 
                 <div>
                     <div className="details">
-                        <h1>Itzy</h1>
+                        <div className="buttons">
+                            <button className="reset-button">Reset</button>
+
+                            <div>
+                                <button className="filters-button">
+                                    Filters
+                                </button>
+                                <button className="sorting-button">
+                                    Sorting
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="titles">
+                            <h1>Itzy</h1>
+                            <img
+                                className="itzy-pic"
+                                src={ItzyImage}
+                                alt="Itzy Playlist Cover Image"
+                            ></img>
+                        </div>
                     </div>
 
                     <div className="selection">selection</div>

@@ -74,13 +74,37 @@ html {
 }
 
 .details {
+    display: flex;
+    flex-direction: row;
+
+    align-items: flex-end;
+    justify-content: space-between;
+
     min-height: 40vh;
     min-width: 75vw;
 
     background: linear-gradient(#7389c1, #3a4561);
 }
 
+.titles,
+.buttons {
+    display: flex;
+    flex-direction: row;
+
+    align-items: flex-end;
+    margin: 1rem;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .selection {
+    display: flex;
+    flex-direction: column;
+
     min-height: 60vh;
     min-width: 75vw;
 
@@ -91,14 +115,72 @@ h1,
 h2 {
     margin: 0;
     padding: 0;
+}
 
+h2 {
     padding: 1rem;
 }
 
-img {
+button {
+    margin: 0.5rem;
+
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+
+    background-color: #212633;
+    color: #f7f7f7;
+    font-size: 1rem;
+
+    outline: 0;
+    border: 0;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.reset-button {
+    border-radius: 50px;
+}
+
+.reset-button:hover {
+    background-color: #11141b;
+    transition: transform 0.3s, background-color 0.3s, color 0.3s;
+}
+
+.filters-button {
+    background-color: #8967bb;
+    border-radius: 5px;
+}
+
+.filters-button:hover {
+    background-color: #705597;
+    transition: transform 0.3s, background-color 0.3s, color 0.3s;
+}
+
+.sorting-button {
+    background-color: #bb9fdb;
+    border-radius: 5px;
+}
+
+.sorting-button:hover {
+    background-color: #937dae;
+    transition: transform 0.3s, background-color 0.3s, color 0.3s;
+}
+
+.roadtrip-pic {
     margin: 0;
     padding: 0;
 
     margin-left: 1.5rem;
     margin-right: 1.5rem;
+}
+
+.itzy-pic {
+    margin: 0;
+    padding: 0;
+
+    margin-left: 1.5rem;
+
+    width: 300px;
 }
