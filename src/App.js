@@ -3,6 +3,8 @@ import "./App.css";
 import ItzyImage from "./images/playlists/Itzy Playlist.jpg";
 import RoadTripImage from "./images/playlists/Roadtrip Playlist.jpeg";
 
+import Song from "./components/song/Song";
+
 function App() {
     return (
         <div className="App">
@@ -44,7 +46,11 @@ function App() {
                         </div>
                     </div>
 
-                    <div className="selection">selection</div>
+                    <div className="selection">
+                        <Song></Song>
+                        <Song></Song>
+                        <Song></Song>
+                    </div>
                 </div>
             </div>
         </div>

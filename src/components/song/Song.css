@@ -1,0 +1,46 @@
+.song {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 1rem;
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
+}
+
+.song-info {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+}
+
+.album-cover {
+    height: 50px;
+    border-radius: 5px;
+
+    justify-content: center;
+}
+
+.song-details {
+    display: flex;
+    flex-direction: column;
+
+    margin: 1rem;
+
+    justify-content: flex-start;
+}
+
+.song-titles {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+}
+
+.icon {
+    height: 25px;
+    margin-left: 1rem;
+}

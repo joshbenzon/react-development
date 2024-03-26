@@ -108,17 +108,37 @@ html {
     min-height: 60vh;
     min-width: 75vw;
 
+    padding-top: 2rem;
+    padding-bottom: 2.5rem;
+
     background: linear-gradient(#2d364d, #121212);
 }
 
 h1,
-h2 {
+h2,
+h3,
+h4,
+h5,
+p {
     margin: 0;
     padding: 0;
 }
 
 h2 {
     padding: 1rem;
+}
+
+h4 {
+    color: #a5a5a5;
+}
+
+h5 {
+    color: #a5a5a5;
+    text-align: left;
+}
+
+p {
+    color: #a5a5a5;
 }
 
 button {
@@ -166,6 +186,10 @@ button {
 .sorting-button:hover {
     background-color: #937dae;
     transition: transform 0.3s, background-color 0.3s, color 0.3s;
+}
+
+img {
+    border-radius: 10px;
 }
 
 .roadtrip-pic {
