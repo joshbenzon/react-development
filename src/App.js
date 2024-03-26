@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+import RoadTripImage from "./images/playlists/Roadtrip Platylist.jpeg";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <div className="main">
+                <div className="favorite">
+                    <h2>RoadTrip Playlist</h2>
+                    <img
+                        src={RoadTripImage}
+                        alt="RoadTrip Playlist Cover Image"
+                    ></img>
+                    <p>[TODO] Time Duration</p>
+
+                    <div>[TODO] Added List of Songs</div>
+                </div>
+
+                <div>
+                    <div className="details">
+                        <h1>Itzy</h1>
+                    </div>
+
+                    <div className="selection">selection</div>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default App;
