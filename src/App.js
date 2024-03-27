@@ -1,11 +1,44 @@
+import React, { useEffect, useState } from "react";
 import "./App.css";
-
+import Song from "./components/song/Song";
 import ItzyImage from "./images/playlists/Itzy Playlist.jpg";
 import RoadTripImage from "./images/playlists/Roadtrip Playlist.jpeg";
 
-import Song from "./components/song/Song";
-
 function App() {
+    const [songs, setSongs] = useState([]);
+
+    useEffect(() => {
+        // Fetch data from the CSV file
+        fetch("data.csv")
+            .then((response) => response.text())
+            .then((data) => {
+                // Parse CSV data
+                const parsedData = parseCSV(data);
+                // Set the parsed data in state
+                setSongs(parsedData);
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+    }, []);
+
+    const parseCSV = (csvData) => {
+        const rows = csvData.split("\n");
+        const headers = rows[0].split(",");
+        const parsedData = [];
+
+        for (let i = 1; i < rows.length; i++) {
+            const rowData = rows[i].split(",");
+            const song = {};
+
+            headers.forEach((header, index) => {
+                song[header] = rowData[index];
+            });
+
+            parsedData.push(song);
+        }
+
+        return parsedData;
+    };
+
     return (
         <div className="App">
             <div className="main">
@@ -18,7 +51,12 @@ function App() {
                     ></img>
                     <p>[TODO] Time Duration</p>
 
-                    <div>[TODO] Added List of Songs</div>
+                    <div>
+                        {/* Render Added List of Songs */}
+                        {songs.map((song, index) => (
+                            <div key={index}>{song.title}</div>
+                        ))}
+                    </div>
                 </div>
 
                 <div>
@@ -47,9 +85,10 @@ function App() {
                     </div>
 
                     <div className="selection">
-                        <Song></Song>
-                        <Song></Song>
-                        <Song></Song>
+                        {/* Render Song components dynamically */}
+                        {songs.map((song, index) => (
+                            <Song key={index} {...song} />
+                        ))}
                     </div>
                 </div>
             </div>
