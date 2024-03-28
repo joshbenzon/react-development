@@ -1,3 +1,5 @@
+// Song.js
+
 import React from "react";
 import "./Song.css";
 
@@ -26,8 +28,11 @@ const albumMap = {
     "Kill My Doubt": KillMyDoubt,
 };
 
-// SONG COMPONENT
-const Song = ({ title, album, artist, duration, isAdded }) => {
+const Song = ({ title, album, artist, duration, isAdded, onToggleAdded }) => {
+    const toggleAdded = () => {
+        onToggleAdded(); // Call the function received as prop to toggle the isAdded property
+    };
+
     return (
         <div className="song">
             <div className="song-info">
@@ -49,10 +54,20 @@ const Song = ({ title, album, artist, duration, isAdded }) => {
 
             <div className="song-info">
                 <p>{duration}</p>
-                {isAdded ? (
-                    <img className="icon" src={AddIcon} alt="Add Icon" />
+                {isAdded === "true" ? (
+                    <img
+                        className="icon"
+                        src={MinusIcon}
+                        alt="Minus Icon"
+                        onClick={toggleAdded}
+                    />
                 ) : (
-                    <img className="icon" src={MinusIcon} alt="Minus Icon" />
+                    <img
+                        className="icon"
+                        src={AddIcon}
+                        alt="Add Icon"
+                        onClick={toggleAdded}
+                    />
                 )}
             </div>
         </div>

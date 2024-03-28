@@ -1,3 +1,5 @@
+// App.js
+
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import Song from "./components/song/Song";
@@ -39,6 +41,13 @@ function App() {
         return parsedData;
     };
 
+    const handleToggleAdded = (index) => {
+        const updatedSongs = [...songs];
+        updatedSongs[index].isAdded =
+            updatedSongs[index].isAdded === "true" ? "false" : "true";
+        setSongs(updatedSongs);
+    };
+
     return (
         <div className="App">
             <div className="main">
@@ -52,10 +61,12 @@ function App() {
                     <p>[TODO] Time Duration</p>
 
                     <div>
-                        {/* Render Added List of Songs */}
-                        {songs.map((song, index) => (
-                            <div key={index}>{song.title}</div>
-                        ))}
+                        {/* Render Added List of Songs where isAdded is TRUE*/}
+                        {songs
+                            .filter((song) => song.isAdded === "true")
+                            .map((song, index) => (
+                                <div key={index}>{song.title}</div>
+                            ))}
                     </div>
                 </div>
 
@@ -87,7 +98,11 @@ function App() {
                     <div className="selection">
                         {/* Render Song components dynamically */}
                         {songs.map((song, index) => (
-                            <Song key={index} {...song} />
+                            <Song
+                                key={index}
+                                {...song}
+                                onToggleAdded={() => handleToggleAdded(index)}
+                            />
                         ))}
                     </div>
                 </div>
