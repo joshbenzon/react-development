@@ -27,10 +27,44 @@ const albumMap = {
     "Kill My Doubt": KillMyDoubt,
 };
 
+function Dropdown(props) {
+    return (
+        <div className="dropdown">
+            {props.isVisible ? (
+                <ul>
+                    {props.type === "filters" ? (
+                        <>
+                            <li>Filter Option 1</li>
+                            <li>Filter Option 2</li>
+                            <li>Filter Option 3</li>
+                        </>
+                    ) : (
+                        <>
+                            <li>Sorting Option 1</li>
+                            <li>Sorting Option 2</li>
+                            <li>Sorting Option 3</li>
+                        </>
+                    )}
+                </ul>
+            ) : null}
+        </div>
+    );
+}
+
 function App() {
     const [songs, setSongs] = useState([]);
     const [addedSongs, setAddedSongs] = useState([]);
     const [totalDuration, setTotalDuration] = useState("0:00");
+    const [isFiltersVisible, setIsFiltersVisible] = useState(false);
+    const [isSortingVisible, setIsSortingVisible] = useState(false);
+
+    const toggleFiltersVisibility = () => {
+        setIsFiltersVisible(!isFiltersVisible);
+    };
+
+    const toggleSortingVisibility = () => {
+        setIsSortingVisible(!isSortingVisible);
+    };
 
     useEffect(() => {
         // Fetch data from the CSV file
@@ -143,11 +177,49 @@ function App() {
                 <div>
                     <div className="details">
                         <div className="buttons">
-                            <button id="reset-button">Reset</button>
+                            <div className="clickable">
+                                <div className="filtering">
+                                    <button
+                                        id="filters-button"
+                                        onClick={toggleFiltersVisibility}
+                                    >
+                                        Filter by Artist
+                                    </button>
+                                    <Dropdown
+                                        isVisible={isFiltersVisible}
+                                        type="filters"
+                                    />
+                                </div>
 
-                            <div>
-                                <button id="filters-button">Filters</button>
-                                <button id="sorting-button">Sorting</button>
+                                <div className="filtering">
+                                    <button
+                                        id="filters-button"
+                                        onClick={toggleFiltersVisibility}
+                                    >
+                                        Filter by Album
+                                    </button>
+                                    <Dropdown
+                                        isVisible={isFiltersVisible}
+                                        type="filters"
+                                    />
+                                </div>
+
+                                <div className="filtering">
+                                    <button
+                                        id="sorting-button"
+                                        onClick={toggleSortingVisibility}
+                                    >
+                                        Sort by Duration
+                                    </button>
+                                    <Dropdown
+                                        isVisible={isSortingVisible}
+                                        type="sorting"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="clickable">
+                                <button id="reset-button">Reset</button>
                             </div>
                         </div>
 
