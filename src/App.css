@@ -159,31 +159,31 @@ button {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
 }
 
-.reset-button {
+#reset-button {
     border-radius: 50px;
 }
 
-.reset-button:hover {
+#reset-button:hover {
     background-color: #11141b;
     transition: transform 0.3s, background-color 0.3s, color 0.3s;
 }
 
-.filters-button {
+#filters-button {
     background-color: #8967bb;
     border-radius: 5px;
 }
 
-.filters-button:hover {
+#filters-button:hover {
     background-color: #705597;
     transition: transform 0.3s, background-color 0.3s, color 0.3s;
 }
 
-.sorting-button {
+#sorting-button {
     background-color: #bb9fdb;
     border-radius: 5px;
 }
 
-.sorting-button:hover {
+#sorting-button:hover {
     background-color: #937dae;
     transition: transform 0.3s, background-color 0.3s, color 0.3s;
 }
@@ -192,7 +192,7 @@ img {
     border-radius: 10px;
 }
 
-.roadtrip-pic {
+#roadtrip-pic {
     margin: 0;
     padding: 0;
 
@@ -200,11 +200,63 @@ img {
     margin-right: 1.5rem;
 }
 
-.itzy-pic {
+#itzy-pic {
     margin: 0;
     padding: 0;
 
     margin-left: 1.5rem;
 
     width: 300px;
+}
+
+/* SONG */
+.song {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 1rem;
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
+}
+
+.song-info {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+}
+
+.album-cover {
+    height: 50px;
+    border-radius: 5px;
+
+    justify-content: center;
+}
+
+.song-details {
+    display: flex;
+    flex-direction: column;
+
+    margin: 1rem;
+
+    justify-content: flex-start;
+}
+
+.song-titles {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+}
+
+.icon {
+    height: 25px;
+    margin-left: 1rem;
+}
+
+.aggregator {
+    padding-top: 1rem;
 }

@@ -2,9 +2,30 @@
 
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import Song from "./components/song/Song";
+import Song from "./components/Song";
 import ItzyImage from "./images/playlists/Itzy Playlist.jpg";
 import RoadTripImage from "./images/playlists/Roadtrip Playlist.jpeg";
+
+// ALBUMS
+import Checkmate from "./images/albums/Checkmate.png";
+import CrazyInLove from "./images/albums/Crazy in Love.jpeg";
+import GuessWho from "./images/albums/Guess Who.webp";
+import ItzDifferent from "./images/albums/It'z Different.jpeg";
+import ItzIcy from "./images/albums/It'z Icy.webp";
+import ItzMe from "./images/albums/It'z Me.jpg";
+import KillMyDoubt from "./images/albums/Kill My Doubt.jpg";
+import NotShy from "./images/albums/Not Shy.jpg";
+
+const albumMap = {
+    "It'z Different": ItzDifferent,
+    "It'z Icy": ItzIcy,
+    "It'z Me": ItzMe,
+    "Not Shy": NotShy,
+    "Guess Who": GuessWho,
+    "Crazy in Love": CrazyInLove,
+    "Check Mate": Checkmate,
+    "Kill My Doubt": KillMyDoubt,
+};
 
 function App() {
     const [songs, setSongs] = useState([]);
@@ -87,41 +108,53 @@ function App() {
                 <div className="favorite">
                     <h2>RoadTrip Playlist</h2>
                     <img
-                        className="roadtrip-pic"
+                        id="roadtrip-pic"
                         src={RoadTripImage}
                         alt="RoadTrip Playlist Cover Image"
                     ></img>
                     <p>Time Duration: {totalDuration}m</p>
 
-                    <div>
+                    <div className="aggregator">
                         {/* Render Added List of Songs where isAdded is TRUE*/}
-                        {songs
-                            .filter((song) => song.isAdded === "true")
-                            .map((song, index) => (
-                                <div key={index}>{song.title}</div>
-                            ))}
+                        {addedSongs.map((song, index) => (
+                            <div key={index} className="song">
+                                <div className="song-info">
+                                    <img
+                                        className="album-cover"
+                                        src={albumMap[song.album]}
+                                        alt={`${song.album} Album Cover`}
+                                    />
+
+                                    <div className="song-details">
+                                        <div className="song-titles">
+                                            <h3>{song.title}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="song-info">
+                                    <p>{song.duration}</p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
                 <div>
                     <div className="details">
                         <div className="buttons">
-                            <button className="reset-button">Reset</button>
+                            <button id="reset-button">Reset</button>
 
                             <div>
-                                <button className="filters-button">
-                                    Filters
-                                </button>
-                                <button className="sorting-button">
-                                    Sorting
-                                </button>
+                                <button id="filters-button">Filters</button>
+                                <button id="sorting-button">Sorting</button>
                             </div>
                         </div>
 
                         <div className="titles">
                             <h1>Itzy</h1>
                             <img
-                                className="itzy-pic"
+                                id="itzy-pic"
                                 src={ItzyImage}
                                 alt="Itzy Playlist Cover Image"
                             ></img>
