@@ -33,6 +33,7 @@ function App() {
     const [originalSongs, setOriginalSongs] = useState([]); // Store the original list of songs
 
     const [totalDuration, setTotalDuration] = useState("0:00");
+    // const [isSortingActive, setIsSortingActive] = useState(false); // New state variable for sorting
 
     const [isArtistFilterVisible, setIsArtistFilterVisible] = useState(false);
     const [isAlbumFilterVisible, setIsAlbumFilterVisible] = useState(false);
@@ -179,6 +180,38 @@ function App() {
         return parsedData;
     };
 
+    const renderSongs = () => {
+        return isSortVisible
+            ? songs
+                  .slice() // Create a copy of the songs array to avoid mutating the original array
+                  .sort((a, b) => {
+                      // Sort songs by duration (assuming duration is in the format "mm:ss")
+                      const [aMinutes, aSeconds] = a.duration
+                          .split(":")
+                          .map(Number);
+                      const [bMinutes, bSeconds] = b.duration
+                          .split(":")
+                          .map(Number);
+                      return (
+                          aMinutes * 60 + aSeconds - (bMinutes * 60 + bSeconds)
+                      );
+                  })
+                  .map((song, index) => (
+                      <Song
+                          key={index}
+                          {...song}
+                          onToggleAdded={() => handleToggleAdded(index)}
+                      />
+                  ))
+            : songs.map((song, index) => (
+                  <Song
+                      key={index}
+                      {...song}
+                      onToggleAdded={() => handleToggleAdded(index)}
+                  />
+              ));
+    };
+
     return (
         <div className="App">
             <div className="main">
@@ -256,10 +289,6 @@ function App() {
                                     >
                                         Sort by Duration
                                     </button>
-                                    <Dropdown
-                                        isVisible={isSortVisible}
-                                        type="sortDuration"
-                                    />
                                 </div>
                             </div>
 
@@ -285,13 +314,7 @@ function App() {
 
                     <div className="selection">
                         {/* Render Song components dynamically */}
-                        {songs.map((song, index) => (
-                            <Song
-                                key={index}
-                                {...song}
-                                onToggleAdded={() => handleToggleAdded(index)}
-                            />
-                        ))}
+                        {renderSongs()}
                     </div>
                 </div>
             </div>
