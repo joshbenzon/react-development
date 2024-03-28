@@ -28,25 +28,34 @@ const albumMap = {
 };
 
 function Dropdown(props) {
+    const { isVisible, type } = props;
+
+    const getOptions = () => {
+        switch (type) {
+            case "filterArtist":
+                return ["Yeji", "Lia", "Ryujin", "Chaeryeong", "Yuna"];
+            case "filterAlbum":
+                return [
+                    "It'z Different",
+                    "It'z Icy",
+                    "It'z Me",
+                    "Check Mate",
+                    "Kill My Doubt",
+                ];
+            default:
+                return [];
+        }
+    };
+
     return (
         <div className="dropdown">
-            {props.isVisible ? (
+            {isVisible && (
                 <ul>
-                    {props.type === "filters" ? (
-                        <>
-                            <li>Filter Option 1</li>
-                            <li>Filter Option 2</li>
-                            <li>Filter Option 3</li>
-                        </>
-                    ) : (
-                        <>
-                            <li>Sorting Option 1</li>
-                            <li>Sorting Option 2</li>
-                            <li>Sorting Option 3</li>
-                        </>
-                    )}
+                    {getOptions().map((option, index) => (
+                        <li key={index}>{option}</li>
+                    ))}
                 </ul>
-            ) : null}
+            )}
         </div>
     );
 }
@@ -55,15 +64,20 @@ function App() {
     const [songs, setSongs] = useState([]);
     const [addedSongs, setAddedSongs] = useState([]);
     const [totalDuration, setTotalDuration] = useState("0:00");
-    const [isFiltersVisible, setIsFiltersVisible] = useState(false);
-    const [isSortingVisible, setIsSortingVisible] = useState(false);
+    const [isArtistFilterVisible, setIsArtistFilterVisible] = useState(false);
+    const [isAlbumFilterVisible, setIsAlbumFilterVisible] = useState(false);
+    const [isSortVisible, setIsSortVisible] = useState(false);
 
-    const toggleFiltersVisibility = () => {
-        setIsFiltersVisible(!isFiltersVisible);
+    const toggleArtistFilterVisibility = () => {
+        setIsArtistFilterVisible(!isArtistFilterVisible);
     };
 
-    const toggleSortingVisibility = () => {
-        setIsSortingVisible(!isSortingVisible);
+    const toggleAlbumFilterVisibility = () => {
+        setIsAlbumFilterVisible(!isAlbumFilterVisible);
+    };
+
+    const toggleSortVisibility = () => {
+        setIsSortVisible(!isSortVisible);
     };
 
     useEffect(() => {
@@ -181,39 +195,39 @@ function App() {
                                 <div className="filtering">
                                     <button
                                         id="filters-button"
-                                        onClick={toggleFiltersVisibility}
+                                        onClick={toggleArtistFilterVisibility}
                                     >
                                         Filter by Artist
                                     </button>
                                     <Dropdown
-                                        isVisible={isFiltersVisible}
-                                        type="filters"
+                                        isVisible={isArtistFilterVisible}
+                                        type="filterArtist"
                                     />
                                 </div>
 
                                 <div className="filtering">
                                     <button
                                         id="filters-button"
-                                        onClick={toggleFiltersVisibility}
+                                        onClick={toggleAlbumFilterVisibility}
                                     >
                                         Filter by Album
                                     </button>
                                     <Dropdown
-                                        isVisible={isFiltersVisible}
-                                        type="filters"
+                                        isVisible={isAlbumFilterVisible}
+                                        type="filterAlbum"
                                     />
                                 </div>
 
                                 <div className="filtering">
                                     <button
                                         id="sorting-button"
-                                        onClick={toggleSortingVisibility}
+                                        onClick={toggleSortVisibility}
                                     >
                                         Sort by Duration
                                     </button>
                                     <Dropdown
-                                        isVisible={isSortingVisible}
-                                        type="sorting"
+                                        isVisible={isSortVisible}
+                                        type="sortDuration"
                                     />
                                 </div>
                             </div>
