@@ -1,18 +1,33 @@
 import React from "react";
 import "./Song.css";
 
+// ALBUMS
+import Checkmate from "../../images/albums/Checkmate.png";
+import CrazyInLove from "../../images/albums/Crazy in Love.jpeg";
+import GuessWho from "../../images/albums/Guess Who.webp";
+import ItzDifferent from "../../images/albums/It'z Different.jpeg";
+import ItzIcy from "../../images/albums/It'z Icy.webp";
+import ItzMe from "../../images/albums/It'z Me.jpg";
+import KillMyDoubt from "../../images/albums/Kill My Doubt.jpg";
+import NotShy from "../../images/albums/Not Shy.jpg";
+
+// ICONS
 import MinusIcon from "../../images/icons/Minus.png";
 import AddIcon from "../../images/icons/Plus.png";
 
-import ItzDifferent from "../../images/albums/It'z Different.jpeg";
-
 const albumMap = {
     "It'z Different": ItzDifferent,
+    "It'z Icy": ItzIcy,
+    "It'z Me": ItzMe,
+    "Not Shy": NotShy,
+    "Guess Who": GuessWho,
+    "Crazy in Love": CrazyInLove,
+    "Check Mate": Checkmate,
+    "Kill My Doubt": KillMyDoubt,
 };
 
-const Song = ({ cover, title, album, artist, duration, isAdded }) => {
-    console.log(cover);
-
+// SONG COMPONENT
+const Song = ({ title, album, artist, duration, isAdded }) => {
     return (
         <div className="song">
             <div className="song-info">
