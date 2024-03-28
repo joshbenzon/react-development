@@ -57,8 +57,13 @@ function App() {
         setSongs(filteredSongs);
     };
 
+    const filterByAlbum = (albumName) => {
+        const filteredSongs = songs.filter((song) => song.album === albumName);
+        setSongs(filteredSongs);
+    };
+
     function Dropdown(props) {
-        const { isVisible, type } = props;
+        const { isVisible, type, filterFunction } = props; // Added filterFunction prop
 
         const getOptions = () => {
             switch (type) {
@@ -84,10 +89,8 @@ function App() {
                         {getOptions().map((option, index) => (
                             <li
                                 key={index}
-                                onClick={() => filterByArtist(option)}
+                                onClick={() => filterFunction(option)} // Use filterFunction prop
                             >
-                                {" "}
-                                {/* Call onItemClick with the selected option */}
                                 {option}
                             </li>
                         ))}
@@ -228,7 +231,7 @@ function App() {
                                     <Dropdown
                                         isVisible={isArtistFilterVisible}
                                         type="filterArtist"
-                                        onItemClick={filterByArtist} // Pass the filter function
+                                        filterFunction={filterByArtist}
                                     />
                                 </div>
 
@@ -242,6 +245,7 @@ function App() {
                                     <Dropdown
                                         isVisible={isAlbumFilterVisible}
                                         type="filterAlbum"
+                                        filterFunction={filterByAlbum}
                                     />
                                 </div>
 
