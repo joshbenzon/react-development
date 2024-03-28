@@ -27,43 +27,13 @@ const albumMap = {
     "Kill My Doubt": KillMyDoubt,
 };
 
-function Dropdown(props) {
-    const { isVisible, type } = props;
-
-    const getOptions = () => {
-        switch (type) {
-            case "filterArtist":
-                return ["Yeji", "Lia", "Ryujin", "Chaeryeong", "Yuna"];
-            case "filterAlbum":
-                return [
-                    "It'z Different",
-                    "It'z Icy",
-                    "It'z Me",
-                    "Check Mate",
-                    "Kill My Doubt",
-                ];
-            default:
-                return [];
-        }
-    };
-
-    return (
-        <div className="dropdown">
-            {isVisible && (
-                <ul>
-                    {getOptions().map((option, index) => (
-                        <li key={index}>{option}</li>
-                    ))}
-                </ul>
-            )}
-        </div>
-    );
-}
-
 function App() {
     const [songs, setSongs] = useState([]);
     const [addedSongs, setAddedSongs] = useState([]);
+    const [originalSongs, setOriginalSongs] = useState([]); // Store the original list of songs
+
     const [totalDuration, setTotalDuration] = useState("0:00");
+
     const [isArtistFilterVisible, setIsArtistFilterVisible] = useState(false);
     const [isAlbumFilterVisible, setIsAlbumFilterVisible] = useState(false);
     const [isSortVisible, setIsSortVisible] = useState(false);
@@ -80,6 +50,60 @@ function App() {
         setIsSortVisible(!isSortVisible);
     };
 
+    const filterByArtist = (artistName) => {
+        const filteredSongs = songs.filter(
+            (song) => song.artist === artistName
+        );
+        setSongs(filteredSongs);
+    };
+
+    function Dropdown(props) {
+        const { isVisible, type } = props;
+
+        const getOptions = () => {
+            switch (type) {
+                case "filterArtist":
+                    return ["Yeji", "Lia", "Ryujin", "Chaeryeong", "Yuna"];
+                case "filterAlbum":
+                    return [
+                        "It'z Different",
+                        "It'z Icy",
+                        "It'z Me",
+                        "Check Mate",
+                        "Kill My Doubt",
+                    ];
+                default:
+                    return [];
+            }
+        };
+
+        return (
+            <div className="dropdown">
+                {isVisible && (
+                    <ul>
+                        {getOptions().map((option, index) => (
+                            <li
+                                key={index}
+                                onClick={() => filterByArtist(option)}
+                            >
+                                {" "}
+                                {/* Call onItemClick with the selected option */}
+                                {option}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+        );
+    }
+
+    const resetFiltersAndSorting = () => {
+        setIsArtistFilterVisible(false);
+        setIsAlbumFilterVisible(false);
+        setIsSortVisible(false);
+        setSongs(originalSongs); // Reset songs list to the original state
+    };
+
     useEffect(() => {
         // Fetch data from the CSV file
         fetch("data.csv")
@@ -89,6 +113,8 @@ function App() {
                 const parsedData = parseCSV(data);
                 // Set the parsed data in state
                 setSongs(parsedData);
+                // Save the original list
+                setOriginalSongs(parsedData);
             })
             .catch((error) => console.error("Error fetching data:", error));
     }, []);
@@ -202,6 +228,7 @@ function App() {
                                     <Dropdown
                                         isVisible={isArtistFilterVisible}
                                         type="filterArtist"
+                                        onItemClick={filterByArtist} // Pass the filter function
                                     />
                                 </div>
 
@@ -233,7 +260,12 @@ function App() {
                             </div>
 
                             <div className="clickable">
-                                <button id="reset-button">Reset</button>
+                                <button
+                                    id="reset-button"
+                                    onClick={resetFiltersAndSorting}
+                                >
+                                    Reset
+                                </button>
                             </div>
                         </div>
 
