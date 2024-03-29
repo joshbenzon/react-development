@@ -1,8 +1,9 @@
-// App.js
-
 import React, { useEffect, useState } from "react";
 import "./App.css";
+
 import Song from "./components/Song";
+
+// IMAGES
 import ItzyImage from "./images/playlists/Itzy Playlist.jpg";
 import RoadTripImage from "./images/playlists/Roadtrip Playlist.jpeg";
 
@@ -27,31 +28,39 @@ const albumMap = {
     "Kill My Doubt": KillMyDoubt,
 };
 
+// APP COMPONENT
 function App() {
+    // USE STATES
     const [songs, setSongs] = useState([]);
     const [addedSongs, setAddedSongs] = useState([]);
     const [originalSongs, setOriginalSongs] = useState([]);
-
     const [totalDuration, setTotalDuration] = useState("0:00");
-
     const [isArtistFilter, setIsArtistFilter] = useState(false);
+    const [artistFilter, setArtistFilter] = useState("");
     const [isAlbumFilter, setIsAlbumFilter] = useState(false);
+    const [albumFilter, setAlbumFilter] = useState("");
     const [isSorting, setIsSorting] = useState(false);
 
-    const [artistFilter, setArtistFilter] = useState("");
-    const [albumFilter, setAlbumFilter] = useState("");
-    // const [filteredSongs, setFilteredSongs] = useState([]);
-
-    const toggleArtistFilterVisibility = () => {
+    // TOGGLE FUNCTIONS
+    const toggleArtistFilter = () => {
         setIsArtistFilter(!isArtistFilter);
     };
 
-    const toggleAlbumFilterVisibility = () => {
+    const toggleAlbumFilter = () => {
         setIsAlbumFilter(!isAlbumFilter);
     };
 
-    const toggleSortVisibility = () => {
+    const toggleSorting = () => {
         setIsSorting(!isSorting);
+    };
+
+    // FILTER FUNCTIONS
+    const filterByArtist = (artistName) => {
+        setArtistFilter(artistName);
+    };
+
+    const filterByAlbum = (albumName) => {
+        setAlbumFilter(albumName);
     };
 
     const filterSongs = () => {
@@ -68,104 +77,17 @@ function App() {
         setSongs(songs);
     };
 
-    const filterByArtist = (artistName) => {
-        setArtistFilter(artistName);
-    };
-
-    const filterByAlbum = (albumName) => {
-        setAlbumFilter(albumName);
-    };
-
-    useEffect(() => {
-        filterSongs();
-    }, [artistFilter, albumFilter]);
-
-    function Dropdown(props) {
-        const { isVisible, type, filterFunction } = props; // Added filterFunction prop
-
-        const getOptions = () => {
-            switch (type) {
-                case "filterArtist":
-                    return ["Yeji", "Lia", "Ryujin", "Chaeryeong", "Yuna"];
-                case "filterAlbum":
-                    return [
-                        "It'z Different",
-                        "It'z Icy",
-                        "It'z Me",
-                        "Not Shy",
-                        "Guess Who",
-                        "Crazy in Love",
-                        "Check Mate",
-                        "Kill My Doubt",
-                    ];
-                default:
-                    return [];
-            }
-        };
-
-        return (
-            <div className="dropdown">
-                {isVisible && (
-                    <ul>
-                        {getOptions().map((option, index) => (
-                            <li
-                                key={index}
-                                onClick={() => filterFunction(option)} // Use filterFunction prop
-                            >
-                                {option}
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </div>
-        );
-    }
-
+    // RESET FUNCTIONS
     const resetFiltersAndSorting = () => {
-        setIsArtistFilter(false);
-        setIsAlbumFilter(false);
-        setIsSorting(false);
-
         setSongs([...originalSongs]);
-
+        setIsArtistFilter(false);
         setArtistFilter("");
+        setIsAlbumFilter(false);
         setAlbumFilter("");
+        setIsSorting(false);
     };
 
-    useEffect(() => {
-        // Fetch data from the CSV file
-        fetch("data.csv")
-            .then((response) => response.text())
-            .then((data) => {
-                // Parse CSV data
-                const parsedData = parseCSV(data);
-                // Save the original list by creating a copy of the parsed data
-                setOriginalSongs([...parsedData]);
-
-                setSongs([...parsedData]);
-            })
-            .catch((error) => console.error("Error fetching data:", error));
-    }, []);
-
-    useEffect(() => {
-        // Calculate total duration when songs change
-        const calculateTotalDuration = () => {
-            let totalSeconds = 0;
-
-            addedSongs.forEach((song) => {
-                const [minutes, seconds] = song.duration.split(":");
-                totalSeconds += parseInt(minutes) * 60 + parseInt(seconds);
-            });
-
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
-
-            setTotalDuration(`${minutes}:${seconds < 10 ? "0" : ""}${seconds}`);
-        };
-
-        calculateTotalDuration();
-    }, [addedSongs]);
-
+    // OTHER FUNCTIONS
     const parseCSV = (csvData) => {
         const rows = csvData.split("\n");
         const headers = rows[0].split(",");
@@ -209,20 +131,6 @@ function App() {
         setSongs(updatedSongs);
     };
 
-    useEffect(() => {
-        // Update filtered songs when sorting visibility changes
-        if (isSorting) {
-            const sortedSongs = songs.slice().sort((a, b) => {
-                const [aMinutes, aSeconds] = a.duration.split(":").map(Number);
-                const [bMinutes, bSeconds] = b.duration.split(":").map(Number);
-                return aMinutes * 60 + aSeconds - (bMinutes * 60 + bSeconds);
-            });
-            setSongs(sortedSongs);
-        } else {
-            filterSongs();
-        }
-    }, [isSorting]);
-
     const renderSongs = () => {
         // Check if there are filtered songs, if not, render an empty list
         const songsToRender = songs.length > 0 ? songs : [];
@@ -235,6 +143,100 @@ function App() {
             />
         ));
     };
+
+    // DROPDOWN
+    function Dropdown(props) {
+        const { isVisible, type, filterFunction } = props; // Added filterFunction prop
+
+        const getOptions = () => {
+            switch (type) {
+                case "filterArtist":
+                    return ["Yeji", "Lia", "Ryujin", "Chaeryeong", "Yuna"];
+                case "filterAlbum":
+                    return [
+                        "It'z Different",
+                        "It'z Icy",
+                        "It'z Me",
+                        "Not Shy",
+                        "Guess Who",
+                        "Crazy in Love",
+                        "Check Mate",
+                        "Kill My Doubt",
+                    ];
+                default:
+                    return [];
+            }
+        };
+
+        return (
+            <div className="dropdown">
+                {isVisible && (
+                    <ul>
+                        {getOptions().map((option, index) => (
+                            <li
+                                key={index}
+                                onClick={() => filterFunction(option)} // Use filterFunction prop
+                            >
+                                {option}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+        );
+    }
+
+    // USE EFFECTS
+    useEffect(() => {
+        filterSongs();
+    }, [artistFilter, albumFilter]);
+
+    useEffect(() => {
+        // Fetch data from the CSV file
+        fetch("data.csv")
+            .then((response) => response.text())
+            .then((data) => {
+                // Parse CSV data
+                const parsedData = parseCSV(data);
+                // Save the original list by creating a copy of the parsed data
+                setOriginalSongs([...parsedData]);
+
+                setSongs([...parsedData]);
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+    }, []);
+
+    useEffect(() => {
+        // Calculate total duration when songs change
+        const calculateTotalDuration = () => {
+            let totalSeconds = 0;
+
+            addedSongs.forEach((song) => {
+                const [minutes, seconds] = song.duration.split(":");
+                totalSeconds += parseInt(minutes) * 60 + parseInt(seconds);
+            });
+
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+
+            setTotalDuration(`${minutes}:${seconds < 10 ? "0" : ""}${seconds}`);
+        };
+
+        calculateTotalDuration();
+    }, [addedSongs]);
+
+    useEffect(() => {
+        if (isSorting) {
+            const sortedSongs = songs.slice().sort((a, b) => {
+                const [aMinutes, aSeconds] = a.duration.split(":").map(Number);
+                const [bMinutes, bSeconds] = b.duration.split(":").map(Number);
+                return aMinutes * 60 + aSeconds - (bMinutes * 60 + bSeconds);
+            });
+            setSongs(sortedSongs);
+        } else {
+            filterSongs();
+        }
+    }, [isSorting]);
 
     return (
         <div className="App">
@@ -249,7 +251,6 @@ function App() {
                     <p id="time-duration">Time Duration: {totalDuration}m</p>
 
                     <div className="aggregator">
-                        {/* Render Added List of Songs where isAdded is TRUE*/}
                         {addedSongs.map((song, index) => (
                             <div key={index} className="song">
                                 <div className="song-info">
@@ -281,7 +282,7 @@ function App() {
                                 <div className="filtering">
                                     <button
                                         id="filters-button"
-                                        onClick={toggleArtistFilterVisibility}
+                                        onClick={toggleArtistFilter}
                                     >
                                         Filter by Artist
                                     </button>
@@ -295,7 +296,7 @@ function App() {
                                 <div className="filtering">
                                     <button
                                         id="filters-button"
-                                        onClick={toggleAlbumFilterVisibility}
+                                        onClick={toggleAlbumFilter}
                                     >
                                         Filter by Album
                                     </button>
@@ -309,7 +310,7 @@ function App() {
                                 <div className="filtering">
                                     <button
                                         id="sorting-button"
-                                        onClick={toggleSortVisibility}
+                                        onClick={toggleSorting}
                                     >
                                         Sort by Duration
                                     </button>

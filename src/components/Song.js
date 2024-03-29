@@ -1,6 +1,8 @@
-// Song.js
-
 import React from "react";
+
+// ICONS
+import MinusIcon from "../images/icons/Minus.png";
+import AddIcon from "../images/icons/Plus.png";
 
 // ALBUMS
 import Checkmate from "../images/albums/Checkmate.png";
@@ -11,10 +13,6 @@ import ItzIcy from "../images/albums/It'z Icy.webp";
 import ItzMe from "../images/albums/It'z Me.jpg";
 import KillMyDoubt from "../images/albums/Kill My Doubt.jpg";
 import NotShy from "../images/albums/Not Shy.jpg";
-
-// ICONS
-import MinusIcon from "../images/icons/Minus.png";
-import AddIcon from "../images/icons/Plus.png";
 
 const albumMap = {
     "It'z Different": ItzDifferent,
@@ -27,11 +25,8 @@ const albumMap = {
     "Kill My Doubt": KillMyDoubt,
 };
 
+// SONG COMPONENT
 const Song = ({ title, album, artist, duration, isAdded, onToggleAdded }) => {
-    const toggleAdded = () => {
-        onToggleAdded(); // Call the function received as prop to toggle the isAdded property
-    };
-
     return (
         <div className="song">
             <div className="song-info">
@@ -58,14 +53,14 @@ const Song = ({ title, album, artist, duration, isAdded, onToggleAdded }) => {
                         className="icon"
                         src={MinusIcon}
                         alt="Minus Icon"
-                        onClick={toggleAdded}
+                        onClick={onToggleAdded}
                     />
                 ) : (
                     <img
                         className="icon"
                         src={AddIcon}
                         alt="Add Icon"
-                        onClick={toggleAdded}
+                        onClick={onToggleAdded}
                     />
                 )}
             </div>
