@@ -31,11 +31,16 @@ function App() {
     const [songs, setSongs] = useState([]);
     const [addedSongs, setAddedSongs] = useState([]);
     const [originalSongs, setOriginalSongs] = useState([]); // Store the original list of songs
+    // const [filteredSongs, setFilteredSongs] = useState([]);
 
     const [totalDuration, setTotalDuration] = useState("0:00");
     const [isArtistFilterVisible, setIsArtistFilterVisible] = useState(false);
     const [isAlbumFilterVisible, setIsAlbumFilterVisible] = useState(false);
     const [isSortVisible, setIsSortVisible] = useState(false);
+
+    const [artistFilter, setArtistFilter] = useState(""); // Initialize artist filter state
+    const [albumFilter, setAlbumFilter] = useState(""); // Initialize album filter state
+    const [filteredSongs, setFilteredSongs] = useState([]); // Initialize filtered songs state
 
     const toggleArtistFilterVisibility = () => {
         setIsArtistFilterVisible(!isArtistFilterVisible);
@@ -49,17 +54,49 @@ function App() {
         setIsSortVisible(!isSortVisible);
     };
 
+    // const filterByArtist = (artistName) => {
+    //     const filteredSongs = originalSongs.filter(
+    //         (song) => song.artist === artistName
+    //     );
+    //     setFilteredSongs(filteredSongs);
+    // };
+
+    // const filterByAlbum = (albumName) => {
+    //     const filteredSongs = originalSongs.filter(
+    //         (song) => song.album === albumName
+    //     );
+    //     setFilteredSongs(filteredSongs);
+    // };
+
+    const filterSongs = () => {
+        let filteredSongs = originalSongs;
+
+        if (artistFilter !== "") {
+            filteredSongs = filteredSongs.filter(
+                (song) => song.artist === artistFilter
+            );
+        }
+
+        if (albumFilter !== "") {
+            filteredSongs = filteredSongs.filter(
+                (song) => song.album === albumFilter
+            );
+        }
+
+        setFilteredSongs(filteredSongs);
+    };
+
     const filterByArtist = (artistName) => {
-        const filteredSongs = songs.filter(
-            (song) => song.artist === artistName
-        );
-        setSongs(filteredSongs);
+        setArtistFilter(artistName);
     };
 
     const filterByAlbum = (albumName) => {
-        const filteredSongs = songs.filter((song) => song.album === albumName);
-        setSongs(filteredSongs);
+        setAlbumFilter(albumName);
     };
+
+    useEffect(() => {
+        filterSongs();
+    }, [artistFilter, albumFilter]);
 
     function Dropdown(props) {
         const { isVisible, type, filterFunction } = props; // Added filterFunction prop
@@ -99,11 +136,20 @@ function App() {
         );
     }
 
+    // const resetFiltersAndSorting = () => {
+    //     setIsArtistFilterVisible(false);
+    //     setIsAlbumFilterVisible(false);
+    //     setIsSortVisible(false);
+    //     setFilteredSongs([]); // Reset filteredSongs state
+    // };
+
     const resetFiltersAndSorting = () => {
         setIsArtistFilterVisible(false);
         setIsAlbumFilterVisible(false);
         setIsSortVisible(false);
-        setSongs(originalSongs); // Reset songs list to the original state
+        setFilteredSongs([...originalSongs]); // Reset filteredSongs state
+        setArtistFilter(""); // Reset artist filter
+        setAlbumFilter(""); // Reset album filter
     };
 
     useEffect(() => {
@@ -117,9 +163,12 @@ function App() {
                 setSongs(parsedData);
                 // Save the original list by creating a copy of the parsed data
                 setOriginalSongs([...parsedData]);
+
+                setFilteredSongs([...parsedData]); // Reset filteredSongs state
             })
             .catch((error) => console.error("Error fetching data:", error));
     }, []);
+
     useEffect(() => {
         // Calculate total duration when songs change
         const calculateTotalDuration = () => {
@@ -178,11 +227,13 @@ function App() {
     };
 
     const renderSongs = () => {
+        // Check if there are filtered songs, if not, render an empty list
+        const songsToRender = filteredSongs.length > 0 ? filteredSongs : [];
+
         return isSortVisible
-            ? songs
-                  //   .slice() // Create a copy of the songs array to avoid mutating the original array
+            ? songsToRender
+                  .slice()
                   .sort((a, b) => {
-                      // Sort songs by duration (assuming duration is in the format "mm:ss")
                       const [aMinutes, aSeconds] = a.duration
                           .split(":")
                           .map(Number);
@@ -200,7 +251,7 @@ function App() {
                           onToggleAdded={() => handleToggleAdded(index)}
                       />
                   ))
-            : songs.map((song, index) => (
+            : songsToRender.map((song, index) => (
                   <Song
                       key={index}
                       {...song}
