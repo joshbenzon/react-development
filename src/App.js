@@ -188,24 +188,24 @@ function App() {
         calculateTotalDuration();
     }, [addedSongs]);
 
-    const handleToggleAdded = (index) => {
-        const updatedSongs = [...songs];
+    // const handleToggleAdded = (index) => {
+    //     const updatedSongs = [...songs];
 
-        updatedSongs[index].isAdded =
-            updatedSongs[index].isAdded === "true" ? "false" : "true";
-        setSongs(updatedSongs);
+    //     updatedSongs[index].isAdded =
+    //         updatedSongs[index].isAdded === "true" ? "false" : "true";
+    //     setSongs(updatedSongs);
 
-        // Add or remove the song from addedSongs based on isAdded value
-        if (updatedSongs[index].isAdded === "true") {
-            // setAddedSongs([...addedSongs, updatedSongs[index]]); // Append the song to addedSongs
-            setAddedSongs([...addedSongs, updatedSongs[index]]); // Append the song to addedSongs
-        } else {
-            const filteredSongs = addedSongs.filter(
-                (song) => song.title !== updatedSongs[index].title
-            );
-            setAddedSongs(filteredSongs); // Remove the song from addedSongs
-        }
-    };
+    //     // Add or remove the song from addedSongs based on isAdded value
+    //     if (updatedSongs[index].isAdded === "true") {
+    //         // setAddedSongs([...addedSongs, updatedSongs[index]]); // Append the song to addedSongs
+    //         setAddedSongs([...addedSongs, updatedSongs[index]]); // Append the song to addedSongs
+    //     } else {
+    //         const filteredSongs = addedSongs.filter(
+    //             (song) => song.title !== updatedSongs[index].title
+    //         );
+    //         setAddedSongs(filteredSongs); // Remove the song from addedSongs
+    //     }
+    // };
 
     const parseCSV = (csvData) => {
         const rows = csvData.split("\n");
@@ -226,13 +226,33 @@ function App() {
         return parsedData;
     };
 
+    const handleToggleAdded = (index) => {
+        const song = isSortVisible ? filteredSongs[index] : songs[index]; // Get the corresponding song from either the sorted or original songs array
+
+        const songIndex = songs.findIndex((s) => s.title === song.title); // Find the index of the song in the original songs array
+        const updatedSongs = [...songs];
+
+        updatedSongs[songIndex].isAdded =
+            updatedSongs[songIndex].isAdded === "true" ? "false" : "true";
+        setSongs(updatedSongs);
+
+        // Add or remove the song from addedSongs based on isAdded value
+        if (updatedSongs[songIndex].isAdded === "true") {
+            setAddedSongs([...addedSongs, updatedSongs[songIndex]]);
+        } else {
+            const filteredSongs = addedSongs.filter(
+                (song) => song.title !== updatedSongs[songIndex].title
+            );
+            setAddedSongs(filteredSongs);
+        }
+    };
+
     const renderSongs = () => {
         // Check if there are filtered songs, if not, render an empty list
         const songsToRender = filteredSongs.length > 0 ? filteredSongs : [];
 
         return isSortVisible
             ? songsToRender
-                  .slice()
                   .sort((a, b) => {
                       const [aMinutes, aSeconds] = a.duration
                           .split(":")
