@@ -148,7 +148,7 @@ function App() {
     };
 
     // DROPDOWN
-    function Dropdown(props) {
+    const Dropdown = (props) => {
         const { isVisible, filterType, filterFunction } = props;
 
         const getFilterOptions = () => {
@@ -189,7 +189,7 @@ function App() {
                 )}
             </div>
         );
-    }
+    };
 
     // USE EFFECTS
     useEffect(() => {
