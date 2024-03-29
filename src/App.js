@@ -147,6 +147,7 @@ function App() {
         setIsArtistFilterVisible(false);
         setIsAlbumFilterVisible(false);
         setIsSortVisible(false);
+        setSongs([...originalSongs]);
         setFilteredSongs([...originalSongs]); // Reset filteredSongs state
         setArtistFilter(""); // Reset artist filter
         setAlbumFilter(""); // Reset album filter
@@ -229,6 +230,10 @@ function App() {
     const handleToggleAdded = (index) => {
         const song = isSortVisible ? filteredSongs[index] : songs[index]; // Get the corresponding song from either the sorted or original songs array
 
+        console.log(isSortVisible, "BOOL");
+        console.log(filteredSongs[index], "FILT");
+        console.log(songs[index], "SONGS");
+
         const songIndex = songs.findIndex((s) => s.title === song.title); // Find the index of the song in the original songs array
         const updatedSongs = [...songs];
 
@@ -247,37 +252,94 @@ function App() {
         }
     };
 
+    // const renderSongs = () => {
+    //     // Check if there are filtered songs, if not, render an empty list
+    //     const songsToRender = filteredSongs.length > 0 ? filteredSongs : [];
+
+    //     return isSortVisible
+    //         ? songsToRender
+    //               .sort((a, b) => {
+    //                   const [aMinutes, aSeconds] = a.duration
+    //                       .split(":")
+    //                       .map(Number);
+    //                   const [bMinutes, bSeconds] = b.duration
+    //                       .split(":")
+    //                       .map(Number);
+    //                   return (
+    //                       aMinutes * 60 + aSeconds - (bMinutes * 60 + bSeconds)
+    //                   );
+    //               })
+    //               .map((song, index) => (
+    //                   <Song
+    //                       key={index}
+    //                       {...song}
+    //                       onToggleAdded={() => handleToggleAdded(index)}
+    //                   />
+    //               ))
+    //         : songsToRender.map((song, index) => (
+    //               <Song
+    //                   key={index}
+    //                   {...song}
+    //                   onToggleAdded={() => handleToggleAdded(index)}
+    //               />
+    //           ));
+    // };
+    // const renderSongs = () => {
+    //     // Check if there are filtered songs, if not, render an empty list
+    //     const songsToRender = filteredSongs.length > 0 ? filteredSongs : [];
+
+    //     // Apply sorting if isSortVisible is true
+    //     const sortedSongs = isSortVisible
+    //         ? songsToRender.slice().sort((a, b) => {
+    //               const [aMinutes, aSeconds] = a.duration
+    //                   .split(":")
+    //                   .map(Number);
+    //               const [bMinutes, bSeconds] = b.duration
+    //                   .split(":")
+    //                   .map(Number);
+    //               return aMinutes * 60 + aSeconds - (bMinutes * 60 + bSeconds);
+    //           })
+    //         : songsToRender;
+
+    //     console.log(sortedSongs, "RENDER!");
+    //     console.log(filteredSongs, "ALL");
+    //     setFilteredSongs([...sortedSongs]);
+
+    //     return sortedSongs.map((song, index) => (
+    //         <Song
+    //             key={index}
+    //             {...song}
+    //             onToggleAdded={() => handleToggleAdded(index)}
+    //         />
+    //     ));
+    // };
+
+    useEffect(() => {
+        // Update filtered songs when sorting visibility changes
+        if (isSortVisible) {
+            const sortedSongs = filteredSongs.slice().sort((a, b) => {
+                const [aMinutes, aSeconds] = a.duration.split(":").map(Number);
+                const [bMinutes, bSeconds] = b.duration.split(":").map(Number);
+                return aMinutes * 60 + aSeconds - (bMinutes * 60 + bSeconds);
+            });
+            setFilteredSongs(sortedSongs);
+        } else {
+            // Reset filtered songs to original songs when sorting is not visible
+            setFilteredSongs([...originalSongs]);
+        }
+    }, [isSortVisible]);
+
     const renderSongs = () => {
         // Check if there are filtered songs, if not, render an empty list
         const songsToRender = filteredSongs.length > 0 ? filteredSongs : [];
 
-        return isSortVisible
-            ? songsToRender
-                  .sort((a, b) => {
-                      const [aMinutes, aSeconds] = a.duration
-                          .split(":")
-                          .map(Number);
-                      const [bMinutes, bSeconds] = b.duration
-                          .split(":")
-                          .map(Number);
-                      return (
-                          aMinutes * 60 + aSeconds - (bMinutes * 60 + bSeconds)
-                      );
-                  })
-                  .map((song, index) => (
-                      <Song
-                          key={index}
-                          {...song}
-                          onToggleAdded={() => handleToggleAdded(index)}
-                      />
-                  ))
-            : songsToRender.map((song, index) => (
-                  <Song
-                      key={index}
-                      {...song}
-                      onToggleAdded={() => handleToggleAdded(index)}
-                  />
-              ));
+        return songsToRender.map((song, index) => (
+            <Song
+                key={index}
+                {...song}
+                onToggleAdded={() => handleToggleAdded(index)}
+            />
+        ));
     };
 
     return (
