@@ -55,12 +55,12 @@ function App() {
     };
 
     // FILTER FUNCTIONS
-    const filterByArtist = (artistName) => {
-        setArtistFilter(artistName);
+    const filterByArtist = (artist) => {
+        setArtistFilter(artist);
     };
 
-    const filterByAlbum = (albumName) => {
-        setAlbumFilter(albumName);
+    const filterByAlbum = (album) => {
+        setAlbumFilter(album);
     };
 
     const filterSongs = () => {
@@ -88,7 +88,7 @@ function App() {
     };
 
     // OTHER FUNCTIONS
-    const parseCSV = (csvData) => {
+    const parseData = (csvData) => {
         const rows = csvData.split("\n");
         const headers = rows[0].split(",");
         const parsedData = [];
@@ -108,32 +108,35 @@ function App() {
     };
 
     const handleToggleAdded = (index) => {
-        const song = songs[index]; // Get the corresponding song from the filtered songs array
+        const originalSong = songs[index]; // corresponding song from the ORIGINAL songs
 
-        // Find the index of the song in the filtered songs array
-        const songIndex = songs.findIndex((s) => s.title === song.title);
+        // index of the song in the FILTERED songs
+        const filteredSongIndex = songs.findIndex(
+            (s) => s.title === originalSong.title
+        );
 
         const updatedSongs = [...songs];
-        updatedSongs[songIndex].isAdded =
-            updatedSongs[songIndex].isAdded === "true" ? "false" : "true";
 
-        // Add or remove the song from addedSongs based on isAdded value
-        if (updatedSongs[songIndex].isAdded === "true") {
-            setAddedSongs([...addedSongs, updatedSongs[songIndex]]);
+        updatedSongs[filteredSongIndex].isAdded =
+            updatedSongs[filteredSongIndex].isAdded === "true"
+                ? "false"
+                : "true";
+
+        // add/remove the song from addedSongs based on the isAdded value
+        if (updatedSongs[filteredSongIndex].isAdded === "true") {
+            setAddedSongs([...addedSongs, updatedSongs[filteredSongIndex]]);
         } else {
             const songsAfterRemoval = addedSongs.filter(
-                (song) => song.title !== updatedSongs[songIndex].title
+                (song) => song.title !== updatedSongs[filteredSongIndex].title
             );
             setAddedSongs(songsAfterRemoval);
         }
 
-        // Update the filtered songs state
         setSongs(updatedSongs);
     };
 
     const renderSongs = () => {
-        // Check if there are filtered songs, if not, render an empty list
-        const songsToRender = songs.length > 0 ? songs : [];
+        const songsToRender = songs.length > 0 ? songs : []; // check if any songs
 
         return songsToRender.map((song, index) => (
             <Song
@@ -146,12 +149,13 @@ function App() {
 
     // DROPDOWN
     function Dropdown(props) {
-        const { isVisible, type, filterFunction } = props; // Added filterFunction prop
+        const { isVisible, filterType, filterFunction } = props;
 
-        const getOptions = () => {
-            switch (type) {
+        const getFilterOptions = () => {
+            switch (filterType) {
                 case "filterArtist":
                     return ["Yeji", "Lia", "Ryujin", "Chaeryeong", "Yuna"];
+
                 case "filterAlbum":
                     return [
                         "It'z Different",
@@ -163,6 +167,7 @@ function App() {
                         "Check Mate",
                         "Kill My Doubt",
                     ];
+
                 default:
                     return [];
             }
@@ -172,10 +177,10 @@ function App() {
             <div className="dropdown">
                 {isVisible && (
                     <ul>
-                        {getOptions().map((option, index) => (
+                        {getFilterOptions().map((option, index) => (
                             <li
                                 key={index}
-                                onClick={() => filterFunction(option)} // Use filterFunction prop
+                                onClick={() => filterFunction(option)}
                             >
                                 {option}
                             </li>
@@ -188,26 +193,17 @@ function App() {
 
     // USE EFFECTS
     useEffect(() => {
-        filterSongs();
-    }, [artistFilter, albumFilter]);
-
-    useEffect(() => {
-        // Fetch data from the CSV file
         fetch("data.csv")
             .then((response) => response.text())
             .then((data) => {
-                // Parse CSV data
-                const parsedData = parseCSV(data);
-                // Save the original list by creating a copy of the parsed data
-                setOriginalSongs([...parsedData]);
-
+                const parsedData = parseData(data);
+                setOriginalSongs([...parsedData]); // save the original song list
                 setSongs([...parsedData]);
             })
-            .catch((error) => console.error("Error fetching data:", error));
-    }, []);
+            .catch((error) => console.error("Error Fetching Data:", error));
+    }, []); // update when first render page
 
     useEffect(() => {
-        // Calculate total duration when songs change
         const calculateTotalDuration = () => {
             let totalSeconds = 0;
 
@@ -223,7 +219,11 @@ function App() {
         };
 
         calculateTotalDuration();
-    }, [addedSongs]);
+    }, [addedSongs]); // update whenever new songs added
+
+    useEffect(() => {
+        filterSongs();
+    }, [artistFilter, albumFilter]); // update whenever new filter is used
 
     useEffect(() => {
         if (isSorting) {
@@ -236,7 +236,7 @@ function App() {
         } else {
             filterSongs();
         }
-    }, [isSorting]);
+    }, [isSorting]); // update whenever sorting is updated
 
     return (
         <div className="App">
@@ -288,7 +288,7 @@ function App() {
                                     </button>
                                     <Dropdown
                                         isVisible={isArtistFilter}
-                                        type="filterArtist"
+                                        filterType="filterArtist"
                                         filterFunction={filterByArtist}
                                     />
                                 </div>
@@ -302,7 +302,7 @@ function App() {
                                     </button>
                                     <Dropdown
                                         isVisible={isAlbumFilter}
-                                        type="filterAlbum"
+                                        filterType="filterAlbum"
                                         filterFunction={filterByAlbum}
                                     />
                                 </div>
