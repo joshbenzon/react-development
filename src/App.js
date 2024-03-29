@@ -33,8 +33,6 @@ function App() {
     const [originalSongs, setOriginalSongs] = useState([]); // Store the original list of songs
 
     const [totalDuration, setTotalDuration] = useState("0:00");
-    // const [isSortingActive, setIsSortingActive] = useState(false); // New state variable for sorting
-
     const [isArtistFilterVisible, setIsArtistFilterVisible] = useState(false);
     const [isAlbumFilterVisible, setIsAlbumFilterVisible] = useState(false);
     const [isSortVisible, setIsSortVisible] = useState(false);
@@ -117,12 +115,11 @@ function App() {
                 const parsedData = parseCSV(data);
                 // Set the parsed data in state
                 setSongs(parsedData);
-                // Save the original list
-                setOriginalSongs(parsedData);
+                // Save the original list by creating a copy of the parsed data
+                setOriginalSongs([...parsedData]);
             })
             .catch((error) => console.error("Error fetching data:", error));
     }, []);
-
     useEffect(() => {
         // Calculate total duration when songs change
         const calculateTotalDuration = () => {
@@ -183,7 +180,7 @@ function App() {
     const renderSongs = () => {
         return isSortVisible
             ? songs
-                  .slice() // Create a copy of the songs array to avoid mutating the original array
+                  //   .slice() // Create a copy of the songs array to avoid mutating the original array
                   .sort((a, b) => {
                       // Sort songs by duration (assuming duration is in the format "mm:ss")
                       const [aMinutes, aSeconds] = a.duration
@@ -220,7 +217,7 @@ function App() {
                     <img
                         id="roadtrip-pic"
                         src={RoadTripImage}
-                        alt="RoadTrip Playlist Cover Image"
+                        alt="RoadTrip Playlist Cover"
                     ></img>
                     <p>Time Duration: {totalDuration}m</p>
 
@@ -307,7 +304,7 @@ function App() {
                             <img
                                 id="itzy-pic"
                                 src={ItzyImage}
-                                alt="Itzy Playlist Cover Image"
+                                alt="Itzy Playlist Cover"
                             ></img>
                         </div>
                     </div>
