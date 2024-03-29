@@ -41,48 +41,15 @@
     font-style: normal;
 }
 
-/* APP */
+/* ALL */
 .App {
-    text-align: center;
-}
-
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
-}
-
-.App-header {
-    background-color: #282c34;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
+
     justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+    align-items: center;
 }
 
-.App-link {
-    color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* All Styling */
-/* MAIN */
 html {
     display: flex;
     justify-content: center;
@@ -91,75 +58,8 @@ html {
     background-color: #101415;
 }
 
-.App {
-    display: flex;
-    flex-direction: column;
-
-    justify-content: center;
-    align-items: center;
-}
-
-.main {
-    display: flex;
-    flex-direction: row;
-
-    width: 100%;
-    height: 100%;
-}
-
-.favorite {
-    display: flex;
-    flex-direction: column;
-
-    min-height: 100vh;
-    min-width: 25vw;
-
-    background-color: #121212;
-}
-
-.details {
-    display: flex;
-    flex-direction: row;
-
-    /* align-items: flex-end; */
-    justify-content: space-between;
-
-    min-height: 50vh;
-    min-width: 75vw;
-
-    background: linear-gradient(#7389c1, #3a4561);
-}
-
-.titles,
-.buttons {
-    display: flex;
-    flex-direction: row;
-
-    align-items: flex-end;
-    margin: 1rem;
-}
-
-.buttons {
-    display: flex;
-    flex-direction: column;
-
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-.clickable {
-    display: flex;
-    flex-direction: row;
-}
-
-.filtering {
-    display: flex;
-    flex-direction: column;
-}
-
-.dropdown {
-    padding: 0;
-    margin: 0;
+img {
+    border-radius: 10px;
 }
 
 ul {
@@ -176,12 +76,10 @@ ul {
     margin-top: 0;
     margin-bottom: 0;
 
-    background: #705597;
-
-    font-size: 1rem;
     outline: 0;
     border: 0;
 
+    background: #705597;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
 
@@ -196,6 +94,8 @@ li {
     font-weight: 300;
     font-style: normal;
     font-size: 1rem;
+
+    text-align: center;
     list-style: none;
 
     padding: 0.5rem;
@@ -210,19 +110,6 @@ li:hover {
     transition: transform 0.3s, background-color 0.3s, color 0.3s;
 }
 
-.selection {
-    display: flex;
-    flex-direction: column;
-
-    min-height: 60vh;
-    min-width: 75vw;
-
-    padding-top: 2rem;
-    padding-bottom: 2.5rem;
-
-    background: linear-gradient(#2d364d, #121212);
-}
-
 h1,
 h2,
 h3,
@@ -231,6 +118,8 @@ h5,
 p {
     margin: 0;
     padding: 0;
+
+    text-align: center;
 }
 
 h1 {
@@ -316,6 +205,84 @@ button {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
 }
 
+/* CLASS */
+.main {
+    display: flex;
+    flex-direction: row;
+
+    width: 100%;
+    height: 100%;
+}
+
+.favorite {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100vh;
+    min-width: 25vw;
+
+    background-color: #121212;
+}
+
+.details {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+
+    min-height: 50vh;
+    min-width: 75vw;
+
+    background: linear-gradient(#7389c1, #3a4561);
+}
+
+.titles {
+    display: flex;
+    flex-direction: row;
+
+    align-items: flex-end;
+    margin: 1rem;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+    align-items: flex-start;
+
+    margin: 1rem;
+}
+
+.clickable {
+    display: flex;
+    flex-direction: row;
+}
+
+.filtering {
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown {
+    padding: 0;
+    margin: 0;
+}
+
+.selection {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 60vh;
+    min-width: 75vw;
+
+    padding-top: 2rem;
+    padding-bottom: 2.5rem;
+
+    background: linear-gradient(#2d364d, #121212);
+}
+
+/* ID */
 #reset-button {
     border-radius: 50px;
 }
@@ -345,10 +312,6 @@ button {
     transition: transform 0.3s, background-color 0.3s, color 0.3s;
 }
 
-img {
-    border-radius: 10px;
-}
-
 #roadtrip-pic {
     margin: 0;
     padding: 0;
@@ -364,6 +327,10 @@ img {
     margin-left: 1.5rem;
 
     width: 300px;
+}
+
+#time-duration {
+    margin: 1rem;
 }
 
 /* SONG */
@@ -397,9 +364,9 @@ img {
     display: flex;
     flex-direction: column;
 
-    margin: 1rem;
-
     justify-content: flex-start;
+
+    margin: 1rem;
 }
 
 .song-titles {
@@ -416,8 +383,4 @@ img {
 
 .aggregator {
     padding-top: 1rem;
-}
-
-#time-duration {
-    margin: 1rem;
 }

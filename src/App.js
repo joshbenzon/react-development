@@ -122,7 +122,7 @@ function App() {
                 ? "false"
                 : "true";
 
-        // add/remove the song from addedSongs based on the isAdded value
+        // add/remove the song from addedSongs based on the isAdded boolean
         if (updatedSongs[filteredSongIndex].isAdded === "true") {
             setAddedSongs([...addedSongs, updatedSongs[filteredSongIndex]]);
         } else {
@@ -136,7 +136,7 @@ function App() {
     };
 
     const renderSongs = () => {
-        const songsToRender = songs.length > 0 ? songs : []; // check if any songs
+        const songsToRender = songs.length > 0 ? songs : []; // check if there are any songs
 
         return songsToRender.map((song, index) => (
             <Song
@@ -193,7 +193,7 @@ function App() {
 
     // USE EFFECTS
     useEffect(() => {
-        fetch("data.csv")
+        fetch("data.csv") // load data
             .then((response) => response.text())
             .then((data) => {
                 const parsedData = parseData(data);
@@ -201,12 +201,13 @@ function App() {
                 setSongs([...parsedData]);
             })
             .catch((error) => console.error("Error Fetching Data:", error));
-    }, []); // update when first render page
+    }, []); // update when first rendering page
 
     useEffect(() => {
         const calculateTotalDuration = () => {
             let totalSeconds = 0;
 
+            // update to correct format ("minutes:seconds")
             addedSongs.forEach((song) => {
                 const [minutes, seconds] = song.duration.split(":");
                 totalSeconds += parseInt(minutes) * 60 + parseInt(seconds);
@@ -223,10 +224,11 @@ function App() {
 
     useEffect(() => {
         filterSongs();
-    }, [artistFilter, albumFilter]); // update whenever new filter is used
+    }, [artistFilter, albumFilter]); // update whenever a new filter is used
 
     useEffect(() => {
         if (isSorting) {
+            // update to correct format ("minutes:seconds")
             const sortedSongs = songs.slice().sort((a, b) => {
                 const [aMinutes, aSeconds] = a.duration.split(":").map(Number);
                 const [bMinutes, bSeconds] = b.duration.split(":").map(Number);
