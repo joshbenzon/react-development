@@ -54,20 +54,6 @@ function App() {
         setIsSortVisible(!isSortVisible);
     };
 
-    // const filterByArtist = (artistName) => {
-    //     const filteredSongs = originalSongs.filter(
-    //         (song) => song.artist === artistName
-    //     );
-    //     setFilteredSongs(filteredSongs);
-    // };
-
-    // const filterByAlbum = (albumName) => {
-    //     const filteredSongs = originalSongs.filter(
-    //         (song) => song.album === albumName
-    //     );
-    //     setFilteredSongs(filteredSongs);
-    // };
-
     const filterSongs = () => {
         let filteredSongs = originalSongs;
 
@@ -158,8 +144,6 @@ function App() {
             .then((data) => {
                 // Parse CSV data
                 const parsedData = parseCSV(data);
-                // Set the parsed data in state
-                // setSongs(parsedData);
                 // Save the original list by creating a copy of the parsed data
                 setOriginalSongs([...parsedData]);
 
@@ -205,28 +189,6 @@ function App() {
 
         return parsedData;
     };
-
-    // const handleToggleAdded = (index) => {
-    //     // const song = isSortVisible ? filteredSongs[index] : songs[index]; // Get the corresponding song from either the sorted or original songs array
-    //     const song = filteredSongs[index]; // Get the corresponding song from either the sorted or original songs array
-
-    //     const songIndex = songs.findIndex((s) => s.title === song.title); // Find the index of the song in the original songs array
-    //     const updatedSongs = [...songs];
-
-    //     updatedSongs[songIndex].isAdded =
-    //         updatedSongs[songIndex].isAdded === "true" ? "false" : "true";
-    //     // setSongs(updatedSongs);
-
-    //     // Add or remove the song from addedSongs based on isAdded value
-    //     if (updatedSongs[songIndex].isAdded === "true") {
-    //         setAddedSongs([...addedSongs, updatedSongs[songIndex]]);
-    //     } else {
-    //         const filteredSongs = addedSongs.filter(
-    //             (song) => song.title !== updatedSongs[songIndex].title
-    //         );
-    //         setAddedSongs(filteredSongs);
-    //     }
-    // };
 
     const handleToggleAdded = (index) => {
         const song = filteredSongs[index]; // Get the corresponding song from the filtered songs array
@@ -294,7 +256,7 @@ function App() {
                         src={RoadTripImage}
                         alt="RoadTrip Playlist Cover"
                     ></img>
-                    <p>Time Duration: {totalDuration}m</p>
+                    <p id="time-duration">Time Duration: {totalDuration}m</p>
 
                     <div className="aggregator">
                         {/* Render Added List of Songs where isAdded is TRUE*/}
@@ -375,7 +337,7 @@ function App() {
                         </div>
 
                         <div className="titles">
-                            <h1>Itzy</h1>
+                            <h1>itzy</h1>
                             <img
                                 id="itzy-pic"
                                 src={ItzyImage}

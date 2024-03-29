@@ -1,3 +1,47 @@
+/* FONTS */
+.roboto-thin {
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+}
+
+.roboto-extra-light {
+    font-family: "Roboto", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+}
+
+.roboto-light {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.roboto-medium {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.roboto-bold {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.roboto-black {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+}
+
+/* APP */
 .App {
     text-align: center;
 }
@@ -119,6 +163,12 @@ html {
 }
 
 ul {
+    /* roboto-light */
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 1rem;
+
     padding: 0;
     margin: 0;
 
@@ -141,10 +191,14 @@ ul {
 }
 
 li {
+    /* roboto-light */
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 1rem;
     list-style: none;
 
     padding: 0.5rem;
-    /* margin-bottom: 1rem; */
 
     &:last-child {
         margin-bottom: 0;
@@ -179,24 +233,70 @@ p {
     padding: 0;
 }
 
+h1 {
+    /* roboto-bold */
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 5rem;
+}
+
 h2 {
-    padding: 1rem;
+    /* roboto-bold */
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 2rem;
+
+    padding: 1.5rem;
+}
+
+h3 {
+    /* roboto-medium */
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 1.25rem;
 }
 
 h4 {
+    /* roboto-regular */
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1rem;
+
     color: #a5a5a5;
 }
 
 h5 {
+    /* roboto-regular */
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1rem;
+
     color: #a5a5a5;
     text-align: left;
 }
 
 p {
+    /* roboto-regular */
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.125rem;
+
     color: #a5a5a5;
 }
 
 button {
+    /* roboto-light */
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 1rem;
+
     margin: 0.75rem;
     margin-bottom: 0rem;
 
@@ -207,7 +307,6 @@ button {
 
     background-color: #212633;
     color: #f7f7f7;
-    font-size: 1rem;
 
     outline: 0;
     border: 0;
@@ -305,7 +404,7 @@ img {
     display: flex;
     flex-direction: row;
 
-    justify-content: center;
+    align-items: center;
 }
 
 .icon {
@@ -315,4 +414,8 @@ img {
 
 .aggregator {
     padding-top: 1rem;
+}
+
+#time-duration {
+    margin: 1rem;
 }
