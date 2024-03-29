@@ -30,46 +30,42 @@ const albumMap = {
 function App() {
     const [songs, setSongs] = useState([]);
     const [addedSongs, setAddedSongs] = useState([]);
-    const [originalSongs, setOriginalSongs] = useState([]); // Store the original list of songs
-    // const [filteredSongs, setFilteredSongs] = useState([]);
+    const [originalSongs, setOriginalSongs] = useState([]);
 
     const [totalDuration, setTotalDuration] = useState("0:00");
-    const [isArtistFilterVisible, setIsArtistFilterVisible] = useState(false);
-    const [isAlbumFilterVisible, setIsAlbumFilterVisible] = useState(false);
-    const [isSortVisible, setIsSortVisible] = useState(false);
 
-    const [artistFilter, setArtistFilter] = useState(""); // Initialize artist filter state
-    const [albumFilter, setAlbumFilter] = useState(""); // Initialize album filter state
-    const [filteredSongs, setFilteredSongs] = useState([]); // Initialize filtered songs state
+    const [isArtistFilter, setIsArtistFilter] = useState(false);
+    const [isAlbumFilter, setIsAlbumFilter] = useState(false);
+    const [isSorting, setIsSorting] = useState(false);
+
+    const [artistFilter, setArtistFilter] = useState("");
+    const [albumFilter, setAlbumFilter] = useState("");
+    // const [filteredSongs, setFilteredSongs] = useState([]);
 
     const toggleArtistFilterVisibility = () => {
-        setIsArtistFilterVisible(!isArtistFilterVisible);
+        setIsArtistFilter(!isArtistFilter);
     };
 
     const toggleAlbumFilterVisibility = () => {
-        setIsAlbumFilterVisible(!isAlbumFilterVisible);
+        setIsAlbumFilter(!isAlbumFilter);
     };
 
     const toggleSortVisibility = () => {
-        setIsSortVisible(!isSortVisible);
+        setIsSorting(!isSorting);
     };
 
     const filterSongs = () => {
-        let filteredSongs = originalSongs;
+        let songs = originalSongs;
 
         if (artistFilter !== "") {
-            filteredSongs = filteredSongs.filter(
-                (song) => song.artist === artistFilter
-            );
+            songs = songs.filter((song) => song.artist === artistFilter);
         }
 
         if (albumFilter !== "") {
-            filteredSongs = filteredSongs.filter(
-                (song) => song.album === albumFilter
-            );
+            songs = songs.filter((song) => song.album === albumFilter);
         }
 
-        setFilteredSongs(filteredSongs);
+        setSongs(songs);
     };
 
     const filterByArtist = (artistName) => {
@@ -126,15 +122,14 @@ function App() {
     }
 
     const resetFiltersAndSorting = () => {
-        setIsArtistFilterVisible(false);
-        setIsAlbumFilterVisible(false);
-        setIsSortVisible(false);
-        // setSongs([...originalSongs]);
+        setIsArtistFilter(false);
+        setIsAlbumFilter(false);
+        setIsSorting(false);
 
-        setFilteredSongs([...originalSongs]); // Reset filteredSongs state
+        setSongs([...originalSongs]);
 
-        setArtistFilter(""); // Reset artist filter
-        setAlbumFilter(""); // Reset album filter
+        setArtistFilter("");
+        setAlbumFilter("");
     };
 
     useEffect(() => {
@@ -147,7 +142,7 @@ function App() {
                 // Save the original list by creating a copy of the parsed data
                 setOriginalSongs([...parsedData]);
 
-                setFilteredSongs([...parsedData]); // Reset filteredSongs state
+                setSongs([...parsedData]);
             })
             .catch((error) => console.error("Error fetching data:", error));
     }, []);
@@ -191,51 +186,46 @@ function App() {
     };
 
     const handleToggleAdded = (index) => {
-        const song = filteredSongs[index]; // Get the corresponding song from the filtered songs array
+        const song = songs[index]; // Get the corresponding song from the filtered songs array
 
         // Find the index of the song in the filtered songs array
-        const songIndex = filteredSongs.findIndex(
-            (s) => s.title === song.title
-        );
+        const songIndex = songs.findIndex((s) => s.title === song.title);
 
-        const updatedFilteredSongs = [...filteredSongs];
-        updatedFilteredSongs[songIndex].isAdded =
-            updatedFilteredSongs[songIndex].isAdded === "true"
-                ? "false"
-                : "true";
+        const updatedSongs = [...songs];
+        updatedSongs[songIndex].isAdded =
+            updatedSongs[songIndex].isAdded === "true" ? "false" : "true";
 
         // Add or remove the song from addedSongs based on isAdded value
-        if (updatedFilteredSongs[songIndex].isAdded === "true") {
-            setAddedSongs([...addedSongs, updatedFilteredSongs[songIndex]]);
+        if (updatedSongs[songIndex].isAdded === "true") {
+            setAddedSongs([...addedSongs, updatedSongs[songIndex]]);
         } else {
-            const filteredSongsAfterRemoval = addedSongs.filter(
-                (song) => song.title !== updatedFilteredSongs[songIndex].title
+            const songsAfterRemoval = addedSongs.filter(
+                (song) => song.title !== updatedSongs[songIndex].title
             );
-            setAddedSongs(filteredSongsAfterRemoval);
+            setAddedSongs(songsAfterRemoval);
         }
 
         // Update the filtered songs state
-        setFilteredSongs(updatedFilteredSongs);
+        setSongs(updatedSongs);
     };
 
     useEffect(() => {
         // Update filtered songs when sorting visibility changes
-        if (isSortVisible) {
-            const sortedSongs = filteredSongs.slice().sort((a, b) => {
+        if (isSorting) {
+            const sortedSongs = songs.slice().sort((a, b) => {
                 const [aMinutes, aSeconds] = a.duration.split(":").map(Number);
                 const [bMinutes, bSeconds] = b.duration.split(":").map(Number);
                 return aMinutes * 60 + aSeconds - (bMinutes * 60 + bSeconds);
             });
-            setFilteredSongs(sortedSongs);
+            setSongs(sortedSongs);
         } else {
-            // Reset filtered songs to original songs when sorting is not visible
             filterSongs();
         }
-    }, [isSortVisible]);
+    }, [isSorting]);
 
     const renderSongs = () => {
         // Check if there are filtered songs, if not, render an empty list
-        const songsToRender = filteredSongs.length > 0 ? filteredSongs : [];
+        const songsToRender = songs.length > 0 ? songs : [];
 
         return songsToRender.map((song, index) => (
             <Song
@@ -296,7 +286,7 @@ function App() {
                                         Filter by Artist
                                     </button>
                                     <Dropdown
-                                        isVisible={isArtistFilterVisible}
+                                        isVisible={isArtistFilter}
                                         type="filterArtist"
                                         filterFunction={filterByArtist}
                                     />
@@ -310,7 +300,7 @@ function App() {
                                         Filter by Album
                                     </button>
                                     <Dropdown
-                                        isVisible={isAlbumFilterVisible}
+                                        isVisible={isAlbumFilter}
                                         type="filterAlbum"
                                         filterFunction={filterByAlbum}
                                     />
