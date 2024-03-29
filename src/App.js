@@ -110,6 +110,9 @@ function App() {
                         "It'z Different",
                         "It'z Icy",
                         "It'z Me",
+                        "Not Shy",
+                        "Guess Who",
+                        "Crazy in Love",
                         "Check Mate",
                         "Kill My Doubt",
                     ];

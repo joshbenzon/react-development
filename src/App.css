@@ -80,7 +80,7 @@ html {
     /* align-items: flex-end; */
     justify-content: space-between;
 
-    min-height: 45vh;
+    min-height: 50vh;
     min-width: 75vw;
 
     background: linear-gradient(#7389c1, #3a4561);
